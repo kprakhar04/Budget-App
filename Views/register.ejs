@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Signup Form</title>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/semantic.min.css">
+      <style type="text/css">
+          h3{
+              color: #721c24;
+              background-color: #f8d7da;
+              width: 467px;
+              margin-left: 600px;
+              position: fixed;
+              top:0px;
+          }
+          #signup{
+             margin: 25px;
+            opacity: 0.8;
+            position: relative;
+            top: 30px;
+            right: -200px;
+          }
+         
+          body{
+  background-image: url("https://images.unsplash.com/photo-1559456474-507a0d806eb7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1912&q=80");
+  min-height: 380px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  width: 100%;
+  height: 90%;
+}
+        </style>
+    </head>
+    <body>
+            <h3>
+                    <%if(err.length>0){%>
+                       <p><%=err%></p>
+                    <%}%>
+                   </h3>
+
+    <div class=".bg-img">
+    
+    <div class="ui main text container segment" id="signup">
+    <div class="ui huge header">Sign up</div>
+    <form class="ui form" action="/register" method="POST">
+      
+       <div class="field">
+           <label>Username</label>
+           <input type="text" name="username" placeholder="username" required>
+       </div>
+       <div class="field">
+           <label>Password</label>
+           <input type="password" name="password" placeholder="password" required>
+       </div>
+        <input class="ui violet basic button" type="submit" value="Sign up" id="btn2">
+     <p>Already have an account? <a href="/login" id="cl">Login</a></p>
+    </form>
+</div>
+ </div>
+ 
+ 
+
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+   <script>
+        $(function(){
+            $('#signup').hide().delay(100).slideDown(2000);
+           
+        });
+        
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,148 @@
+
+        <%include ./partials/header.ejs%>
+        <%var sum=0,inc=0,exp=0%>
+        
+        
+        
+        <%
+        budget.forEach(function(budget1){
+            if(currentUser && budget1.author.id.equals(currentUser._id) && budget1.year==new Date().getFullYear() && budget1.month==new Date().getMonth()){
+
+            if(budget1.type=="exp"){
+            sum-=budget1.cost;
+            exp+=budget1.cost;
+            } else if(budget1.type="inc"){
+                sum+=budget1.cost;
+                inc+=budget1.cost; 
+        }}});%>
+        
+
+
+        <div class="top">
+            <div class="budget">
+                <div class="budget__title">
+                    Available Budget in <span ><%=new Date().toString().substring(4,7)%></span>
+                    <span><%=new Date().getFullYear()%>:</span>
+                </div>
+                
+                <div class="budget__value1"> <%=sum.toFixed(2)%></div>
+                
+                <div class="budget__income clearfix">
+                    <div class="budget__income--text">Income</div>
+                    <div class="right">
+                       
+                        <div id="inc" class="budget__income--value1">+ <%=inc.toFixed(2)%></div>
+                        <div class="budget__income--percentage">&nbsp;</div>
+                    </div>
+                </div>
+                
+                <div class="budget__expenses clearfix">
+                    <div class="budget__expenses--text">Expenses</div>
+                    <div class="right clearfix">
+                        <div id="exp" class="budget__expenses--value1">- <%=exp.toFixed(2)%></div>
+                        <div class="budget__expenses--percentage"><%=((exp/inc)*100).toFixed(2)%></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="add">
+                    <form action="/bud" method="post" autocomplete="off">
+                        <div class="add__container">
+                            <select class="add__type" name="bud[type]">
+                                <option value="inc" selected>+</option>
+                                <option value="exp">-</option>
+                            </select>
+                            
+                     <input type="text" name="bud[item]" class="add__description" placeholder="Add description" >
+                     <input type="number" name="bud[cost]" class="add__value" placeholder="Value">
+                    <button class="add__btn" id="btn1"><i class="ion-ios-checkmark-outline"></i></button>
+                    </form>
+                </div>
+            </div>
+            <p id="user">Signed in as <span style="font-style: italic"><%=currentUser.username.charAt(0).toUpperCase()%><%=currentUser.username.slice(1)%></span></p>
+            <p><a href="/summary">Budget Summary</a></p>
+            <a id="logout" href="/logout">Sign out</a>
+        
+            <div class="container clearfix">
+                <div class="income">
+                    <h2 class="icome__title">Income</h2>
+                       
+                    <div class="income__list">
+                        <ul>
+                                
+                            <%budget.forEach(function(budget1){%>
+                                
+                                <%if(currentUser && budget1.author.id.equals(currentUser._id) && budget1.year==new Date().getFullYear() && budget1.month==new Date().getMonth()){%>
+                             <%if(budget1.type=="inc"){%>
+                                <div id="li_edit_del">
+                            <li><%=budget1.item%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<%=budget1.cost%></li>
+                            <div class="edit_del">
+                                <div class="edit">
+                            
+                       <ul class="li">        
+                         <li><a class="edit_lin" href="/bud/<%=budget1._id%>/edit" onclick="edit_show_hide(event); show_hide(event);">Update</a></li>
+                         <li>
+                         <form class="form1 hide" action="/bud/<%=budget1._id%>?_method=PUT"method="post" autocomplete="off">
+                             <input class="input_edit" type="text" name="bud[item]" value="<%=budget1.item%>"> <br/>
+                             <input class="input_edit" type="text" name="bud[cost]" value="<%=budget1.cost%>"> <br/>
+                             <button class="edit_btn">Update</button>
+                        </form>
+                    </li> 
+                       </ul>
+                                </div>
+                    <div class="del">
+                            <form action="/bud/<%=budget1._id%>?_method=DELETE"method="post">
+                                 <button class="del_btn">Delete</button>
+                            </form>
+                        </div>
+                            </div>
+                        </div>
+                             <%}}%>
+                            <%})%>
+                        </ul>
+                    </div>
+                </div>
+                <div class="expenses">
+                    <h2 class="expenses__title">Expenses</h2>
+
+                    <div class="expenses__list">
+                        <ul>
+                            <%budget.forEach(function(budget1){%>
+                                <%if(currentUser && budget1.author.id.equals(currentUser._id) && budget1.year==new Date().getFullYear() && budget1.month==new Date().getMonth()){%>
+                             <%if(budget1.type=="exp"){%>
+                                <div id="li_edit_del1">
+                            <li><%=budget1.item%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<%=budget1.cost%></li>
+                            <div class="edit_del1">
+                                <div class="edit1">
+                            <ul class="li1">
+                            <li><a class="edit_lin1" href="/bud/<%=budget1._id%>/edit" onclick="edit_show_hide1(event); show_hide_1(event);">Update</a></li>
+                           <li> <form class="form2 hide" class="hide" action="/bud/<%=budget1._id%>?_method=PUT"method="post" autocomplete="off">
+                             <input class="input_edit" type="text" name="bud[item]" value="<%=budget1.item%>"> <br/>
+                             <input class="input_edit" type="text" name="bud[cost]" value="<%=budget1.cost%>"> 
+                             <br/>
+                             <button class="edit_btn">Update</button>
+                            </form>
+                        </li>
+                        </ul>
+                        </div>
+                        
+                            <div class="del1">
+                            <form action="/bud/<%=budget1._id%>?_method=DELETE" method="post">
+                                 <button class="del_btn1">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+            
+                             <%}}%>
+                            <%})%>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+           
+            
+        </div>
+
+ <%include ./partials/footer.ejs%>
